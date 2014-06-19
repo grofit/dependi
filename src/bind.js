@@ -1,6 +1,6 @@
 var BindJS = (function(){
     
-	function ConstructorDescription(name, args)
+	function ConstructorDescriptor(name, args)
 	{
 		this.name = name;
 		this.args = args;
@@ -18,14 +18,14 @@ var BindJS = (function(){
 		this.isDependency = isDependency;
 	}
 
-    var getObjectDescriptor = function(targetConstructor) {
+    var getConstructorDescriptor = function(targetConstructor) {
         var functionMatcher = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
         var constructorMatcher = /function (\w*)/;
         var text = targetConstructor.toString();
         var matches = text.match(functionMatcher);
         var constructorName = matches[0].match(constructorMatcher)[1];
         var constructorArgs = matches[1].split(',');
-        return new ConstructorDescription(constructorName, constructorArgs);
+        return new ConstructorDescriptor(constructorName, constructorArgs);
     };
 
     var createInstanceFactory = function(targetConstructor, args) {
@@ -75,7 +75,7 @@ var BindJS = (function(){
 		};
 
 		this.bind = function(targetConstructor) {
-			var descriptor = getObjectDescriptor(targetConstructor);
+			var descriptor = getConstructorDescriptor(targetConstructor);
 			if(bindings[descriptor.name]) 
 			{ throw "Dependency [" + descriptor.name + "] is already bound"; }
 			
@@ -85,13 +85,13 @@ var BindJS = (function(){
 		};
 
         this.unbind = function(targetConstructor) {
-            var descriptor = getObjectDescriptor(targetConstructor);
+            var descriptor = getConstructorDescriptor(targetConstructor);
             if(bindings[descriptor.name])
             { delete bindings[descriptor.name]; }
         };
 		
 		this.get = function(targetConstructor) {
-			var descriptor = getObjectDescriptor(targetConstructor);
+			var descriptor = getConstructorDescriptor(targetConstructor);
 
             if(!bindings[descriptor.name])
 			{ throw "There is no available binding for [" + descriptor.name + "] confirm you have bound it"; }
