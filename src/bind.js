@@ -83,15 +83,22 @@ var BindJS = (function(){
 			bindings[descriptor.name] = bindingSetup;
 			return new BindingContext(bindingSetup);
 		};
+
+        this.unbind = function(targetConstructor) {
+            var descriptor = getObjectDescriptor(targetConstructor);
+            if(bindings[descriptor.name])
+            { delete bindings[descriptor.name]; }
+        };
 		
 		this.get = function(targetConstructor) {
 			var descriptor = getObjectDescriptor(targetConstructor);
-			if(!bindings[descriptor.name])
+
+            if(!bindings[descriptor.name])
 			{ throw "There is no available binding for [" + descriptor.name + "] confirm you have bound it"; }
-			
-			var orderedArgs = getOrderedArgs(descriptor);
-			var instanceFactory = createInstanceFactory(targetConstructor, orderedArgs);
-			return new instanceFactory();
+
+            var orderedArgs = getOrderedArgs(descriptor);
+            var instanceFactory = createInstanceFactory(targetConstructor, orderedArgs);
+            return new instanceFactory();
 		};
 	}
 
