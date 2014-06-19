@@ -1,0 +1,35 @@
+<html>
+	<head>
+		<title>BindJS Example</title>
+	</head>
+	<body>
+		<h2>Alert should be popping up now</h2>
+		<script src="src/bind.js"></script>
+		<script type="text/javascript">
+		
+			function Foo(bar, message) // requires bar instance and a message
+			{
+				this.doSomething = function() {
+					bar.alertUser(message);
+				}
+			}
+
+			function Bar()
+			{
+				this.alertUser = function(message) {
+					alert(message);
+				};
+			}
+
+			var binder = new BindJS();
+			binder.bind(Bar);
+			binder.bind(Foo)
+				  .withDependency("bar", Bar)	// withDependency(argName, constructorForDependency);
+				  .withArgument("message", "DANGER WILL ROBINSON"); // withArgument(argName, argValue);
+					
+			var foo = binder.get(Foo);
+			foo.doSomething(); // Alerts DANGER WILL ROBINSON
+
+		</script>
+	</body>
+</html>
