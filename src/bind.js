@@ -10,6 +10,7 @@ var BindJS = (function(){
 	{
 		this.descriptor = constructorDescriptor;
 		this.args = [];
+        this.isSingleton = false;
 	}
 
 	function BoundArgument(value, isDependency)
@@ -37,6 +38,7 @@ var BindJS = (function(){
 	{	
 		var self = this;
 		var bindings = [];
+        var singletonCache = [];
 	
 		function BindingContext(bindingSetup) {
 		
@@ -54,6 +56,11 @@ var BindJS = (function(){
 				bindingSetup.args[name] = new BoundArgument(value, false);
 				return this;
 			};
+
+            this.asSingleton = function() {
+                bindingSetup.isSingleton = true;
+                return this;
+            };
 		};
 		
 		var getOrderedArgs = function(descriptor) {
@@ -96,8 +103,19 @@ var BindJS = (function(){
             if(!bindings[descriptor.name])
 			{ throw "There is no available binding for [" + descriptor.name + "] confirm you have bound it"; }
 
+            if(singletonCache[descriptor.name])
+            { return singletonCache[descriptor.name]; }
+
+            var bindingSetup = bindings[descriptor.name];
             var orderedArgs = getOrderedArgs(descriptor);
             var instanceFactory = createInstanceFactory(targetConstructor, orderedArgs);
+
+            if(bindingSetup.isSingleton)
+            {
+                singletonCache[descriptor.name] = new instanceFactory();
+                return singletonCache[descriptor.name];
+            }
+
             return new instanceFactory();
 		};
 	}

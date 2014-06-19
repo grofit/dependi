@@ -20,6 +20,16 @@
 					alert(message);
 				};
 			}
+			
+			function HostedAsSingleton()
+			{
+				this.count = 0;
+			}
+
+            function HostedAsTransient()
+            {
+                this.count = 0;
+            }
 
 			var binder = new BindJS();
 			binder.bind(Bar);
@@ -29,6 +39,21 @@
 					
 			var foo = binder.get(Foo);
 			foo.doSomething(); // Alerts DANGER WILL ROBINSON
+
+            binder.bind(HostedAsTransient);
+			binder.bind(HostedAsSingleton)
+				  .asSingleton();
+				  
+			var instance1 = binder.get(HostedAsSingleton);
+			var instance2 = binder.get(HostedAsSingleton);
+			
+			instance1.count = 152;
+			alert("Singleton Instance Value: " + instance2.count); // Alerts 152 as each get shares the same instance
+
+            var instance3 = binder.get(HostedAsTransient);
+            var instance4 = binder.get(HostedAsTransient);
+            instance3.count = 320;
+            alert("Transient Instance Value: " + instance4.count); // Alerts 0 as each get makes a new instance
 
 		</script>
 	</body>
