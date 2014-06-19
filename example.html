@@ -33,9 +33,9 @@
 
 			var binder = new BindJS();
 			binder.bind(Bar);
-			binder.bind(Foo)
-				  .withDependency("bar", Bar)	// withDependency(argName, constructorForDependency);
-				  .withArgument("message", "DANGER WILL ROBINSON"); // withArgument(argName, argValue);
+			binder.bind(Foo)			
+				  .withArgument("message", "DANGER WILL ROBINSON") // withArgument(argName, argValue);
+				  .withDependency("bar", Bar);	// withDependency(argName, constructorForDependency);
 					
 			var foo = binder.get(Foo);
 			foo.doSomething(); // Alerts DANGER WILL ROBINSON

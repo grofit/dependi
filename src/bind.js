@@ -24,14 +24,25 @@ var BindJS = (function(){
         var constructorMatcher = /function (\w*)/;
         var text = targetConstructor.toString();
         var matches = text.match(functionMatcher);
+
         var constructorName = matches[0].match(constructorMatcher)[1];
-        var constructorArgs = matches[1].split(',');
+        var constructorArgs = [];
+
+        if(matches[1].length > 0)
+        { constructorArgs = matches[1].replace(/ /g,'').split(','); }
+
         return new ConstructorDescriptor(constructorName, constructorArgs);
     };
 
     var createInstanceFactory = function(targetConstructor, args) {
         var finalArgs = [null].concat(args);
         return targetConstructor.bind.apply(targetConstructor, finalArgs);
+    };
+
+    var populateDefaultArgs = function(bindingSetup) {
+        bindingSetup.descriptor.args.forEach(function(arg){
+            bindingSetup.args[arg] = null;
+        });
     };
 
 	return function()
@@ -87,6 +98,7 @@ var BindJS = (function(){
 			{ throw "Dependency [" + descriptor.name + "] is already bound"; }
 			
 			var bindingSetup = new BindingSetup(descriptor);
+            populateDefaultArgs(bindingSetup);
 			bindings[descriptor.name] = bindingSetup;
 			return new BindingContext(bindingSetup);
 		};
