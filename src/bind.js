@@ -1,4 +1,4 @@
-var BindJS = (function(){
+var BindJs = (function(){
     
 	function ConstructorDescriptor(name, args)
 	{
