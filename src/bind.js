@@ -1,5 +1,18 @@
-var BindJs = (function(){
-    
+(function (factory) {
+    // Module systems magic dance.
+	var global = (0, eval)('this');
+    if (typeof require === "function" && typeof exports === "object" && typeof module === "object") {
+        // CommonJS or Node
+        factory(exports);
+    } else if (typeof define === "function" && define["amd"]) {
+        // AMD anonymous module
+        define(["exports"], factory);
+    } else {
+        // <script> tag: use the global `BindJs` object
+        factory(global);
+    }
+}(function (exports) {
+	
 	function ConstructorDescriptor(name, args)
 	{
 		this.name = name;
@@ -11,6 +24,7 @@ var BindJs = (function(){
 		this.descriptor = constructorDescriptor;
 		this.args = [];
         this.isSingleton = false;
+        this.named = "";
 	}
 
 	function BoundArgument(value, isDependency)
@@ -45,7 +59,7 @@ var BindJs = (function(){
         });
     };
 
-	return function()
+	function BindJs()
 	{	
 		var self = this;
 		var bindings = [];
@@ -56,23 +70,27 @@ var BindJs = (function(){
 			this.withDependency = function(name, targetConstructor) {
 				if(bindingSetup.args[name])
 				{ throw "Dependency [" + bindingSetup.descriptor.name + "] already has bound argument [" + name + "]"; }
-
 				bindingSetup.args[name] = new BoundArgument(targetConstructor, true);
 				return this;
 			};
 			
 			this.withArgument = function(name, value) {
 				if(bindingSetup.args[name])
-				{ throw "Dependency [" + bindingSetup.descriptor.name + "] already has bound argument [" + name + "]"; }
+				{ throw "Value [" + bindingSetup.descriptor.name + "] already has bound argument [" + name + "]"; }
 				bindingSetup.args[name] = new BoundArgument(value, false);
 				return this;
 			};
-
+			
             this.asSingleton = function() {
                 bindingSetup.isSingleton = true;
                 return this;
             };
-		};
+            
+            this.named = function(name) {
+            	bindingSetup.named = name;
+            	return this;
+            };
+		}
 		
 		var getOrderedArgs = function(descriptor) {
 			var bindingSetup = bindings[descriptor.name];
@@ -132,4 +150,5 @@ var BindJs = (function(){
 		};
 	}
 
-})();
+	exports.BindJs = BindJs;
+}));
