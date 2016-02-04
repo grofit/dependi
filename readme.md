@@ -4,13 +4,14 @@ A simple dependency container which allows for construction injection, meaning y
 
 ## Warning
 
-This is still a prototype so it is not ready for use anywhere.
+This is a prototype and is designed to work in a classical way so will require named function constructors to work.
 
 ## Features to come
 
 Ideally before I start using it anywhere I will need it to:
 
 - Allow lifecycle binding options (singleton, transient etc) [DONE]
+- Allow named/alias bindings [DONE]
 - Cache instance factories for performance boost
 
 Ideally if it is possible (I think it is) and I get time:
@@ -27,32 +28,36 @@ although you can make multiple instances. Each one is isolated and has its own b
 
 To bind something you would do:
 ```
-var bindJs = new BindJs();
-bindJs.bind(YourObjectConstructor);
+// Browser
+var container = new BindJs.Container();
+container.bind(YourObjectConstructor);
+
+// NodeJs
+var container = require("bindjs").Container;
 ```
 
 Then to get it you would do:
 ```
-var myInstance = bindJs.get(YourObjectConstructor);
+var myInstance = container.get(YourObjectConstructor);
 ```
 
 If you have parameters in your constructor then tell the binding what to put in there:
 ```
-bindJs.bind(YourObjectConstructor).withArgument("argumentName", argumentValue);
+container.bind(YourObjectConstructor).withArgument("argumentName", argumentValue);
 ```
 
 Sometimes you will have a dependency on another object that has been bound, so in that case
 you will need to indicate to the container that you require a dependency injected into your constructor.
 
 ```
-var bindJs = new BindJs();
-bindJs.bind(DependencyConstructor);
-bindJs.bind(DependantConstructor).withDependency("argumentName", DependencyConstructor);
+var container = new BindJs.Container();
+container.bind(DependencyConstructor);
+container.bind(DependantConstructor).withDependency("argumentName", DependencyConstructor);
 ```
 
 You can chain together your bindings so if you have multiple arguments:
 ```
-bindJs.bind(YourObjectConstructor).withArgument("argument1Name", someValue).withArgument("argument2Name", someOtherValue).withDependency("argument3Name", SomeDependencyConstructor);
+container.bind(YourObjectConstructor).withArgument("argument1Name", someValue).withArgument("argument2Name", someOtherValue).withDependency("argument3Name", SomeDependencyConstructor);
 ```
 
 Finally you can manage the lifetime of your objects, in some cases you will want to share the same instance
@@ -61,7 +66,7 @@ By default each `get` or dependency requirement will create a new instance of th
 infer the lifetime like so:
 
 ```
-bindJs.bind(YourObjectConstructor).asSingleton();
+container.bind(YourObjectConstructor).asSingleton();
 ```
 
 ## Example
@@ -83,13 +88,13 @@ function Bar()
 	};
 }
 
-var binder = new BindJS();
-binder.bind(Bar);
-binder.bind(Foo)
+var container = new BindJS.Container();
+container.bind(Bar);
+container.bind(Foo)
 	  .withDependency("bar", Bar)	// withDependency(argName, constructorForDependency);
 	  .withArgument("message", "DANGER WILL ROBINSON"); // withArgument(argName, argValue);
 		
-var foo = binder.get(Foo);
+var foo = container.get(Foo);
 foo.doSomething(); // Alerts DANGER WILL ROBINSON
 ```
 
