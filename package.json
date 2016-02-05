@@ -2,8 +2,7 @@
   "name": "bindjs",
   "version": "0.5.0",
   "description": "A dependency injection framework for constructor injection",
-  "main": "dist/index.js",
-  "files": [ "src/bind.js" ],
+  "main": "dist/bind.js",
   "dependencies": {},
   "devDependencies": {
     "gulp": "3.9.0",
