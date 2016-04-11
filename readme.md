@@ -6,7 +6,8 @@ A simple dependency container which allows for construction injection, meaning y
 
 This is a prototype and is designed to work in a classical way so will require named function constructors to work.
 
-This was designed for ES3/5 systems in a world without decorators, it does now have decorators but it 
+This was designed for ES3/5 systems in a world without decorators, it does have decorators for TS and ES6/7 users,
+however going forward more use cases could be supported for injection chains rather than simple instantiations.
 
 ## Features to come
 

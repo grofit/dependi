@@ -1,6 +1,6 @@
 {
   "name": "dependy",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "A dependency injection framework for ioc and not service location in in javascript",
   "main": "dist/dependi.js",
   "files": [
