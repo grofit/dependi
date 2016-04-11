@@ -4,9 +4,9 @@
 	else if(typeof define === 'function' && define.amd)
 		define([], factory);
 	else if(typeof exports === 'object')
-		exports["BindJs"] = factory();
+		exports["Dependi"] = factory();
 	else
-		root["BindJs"] = factory();
+		root["Dependi"] = factory();
 })(this, function() {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
@@ -61,18 +61,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	__export(__webpack_require__(3));
 	__export(__webpack_require__(7));
 	__export(__webpack_require__(12));
+	__export(__webpack_require__(13));
 	__export(__webpack_require__(5));
 	__export(__webpack_require__(6));
-	__export(__webpack_require__(13));
 	__export(__webpack_require__(14));
-	__export(__webpack_require__(11));
-	__export(__webpack_require__(10));
-	__export(__webpack_require__(8));
 	__export(__webpack_require__(15));
-	__export(__webpack_require__(16));
+	__export(__webpack_require__(11));
 	__export(__webpack_require__(2));
 	__export(__webpack_require__(4));
 	__export(__webpack_require__(9));
+	__export(__webpack_require__(10));
+	__export(__webpack_require__(8));
+	__export(__webpack_require__(16));
+	__export(__webpack_require__(17));
 
 
 /***/ },
@@ -379,15 +380,18 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	var container_1 = __webpack_require__(7);
-	exports.container = new container_1.Container();
-	function withServiceLocation() {
+	var constructor_processor_1 = __webpack_require__(8);
+	var unable_to_resolve_error_1 = __webpack_require__(14);
+	exports.__container = new container_1.Container();
+	var constructorProcessor = new constructor_processor_1.ConstructorProcessor();
+	function withContainer() {
 	    return function (target, key, descriptor) {
 	        var originalExecutor = descriptor.value;
-	        descriptor.value = function () { return originalExecutor(exports.container); };
+	        descriptor.value = function () { return originalExecutor(exports.__container); };
 	        return descriptor;
 	    };
 	}
-	exports.withServiceLocation = withServiceLocation;
+	exports.withContainer = withContainer;
 	;
 	function inject() {
 	    var types = [];
@@ -398,9 +402,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var allInstances = [];
 	        for (var _i = 0; _i < types.length; _i++) {
 	            var type = types[_i];
-	            var instance = exports.container.get(type);
+	            var instance = exports.__container.get(type);
+	            var descriptor_1 = void 0;
 	            if (!instance) {
-	                throw new Error("Unable to resolve instance for: " + type);
+	                descriptor_1 = constructorProcessor.processConstructor(type);
+	                instance = descriptor_1.factory();
+	            }
+	            if (!instance) {
+	                throw new unable_to_resolve_error_1.UnableToResolveError("Unable to resolve or instantiate " + descriptor_1.name);
 	            }
 	            allInstances.push(instance);
 	        }
@@ -417,7 +426,19 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 14 */
 /***/ function(module, exports) {
 
-	
+	var __extends = (this && this.__extends) || function (d, b) {
+	    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+	    function __() { this.constructor = d; }
+	    d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+	};
+	var UnableToResolveError = (function (_super) {
+	    __extends(UnableToResolveError, _super);
+	    function UnableToResolveError(message) {
+	        _super.call(this, message);
+	    }
+	    return UnableToResolveError;
+	})(Error);
+	exports.UnableToResolveError = UnableToResolveError;
 
 
 /***/ },
@@ -429,6 +450,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 16 */
+/***/ function(module, exports) {
+
+	
+
+
+/***/ },
+/* 17 */
 /***/ function(module, exports) {
 
 	

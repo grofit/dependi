@@ -7,8 +7,8 @@ gulp.task('package', ["compile"], function () {
         .pipe(webpack({
             output: {
                 entry: "index.js",
-                filename: "bind.js",
-                library: "BindJs",
+                filename: "dependi.js",
+                library: "Dependi",
                 libraryTarget: "umd"
             }
         }))

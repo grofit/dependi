@@ -1,10 +1,12 @@
-# BindJS
+# Dependi
 
 A simple dependency container which allows for construction injection, meaning you can have your cake and eat it.
 
 ## Warning
 
 This is a prototype and is designed to work in a classical way so will require named function constructors to work.
+
+This was designed for ES3/5 systems in a world without decorators, it does now have decorators but it 
 
 ## Features to come
 
@@ -13,6 +15,7 @@ Ideally before I start using it anywhere I will need it to:
 - Allow lifecycle binding options (singleton, transient etc) [DONE]
 - Allow named/alias bindings [DONE]
 - Cache instance factories for performance boost
+- Add decorators for ES7 style use-cases [PARTIALLY DONE]
 
 Ideally if it is possible (I think it is) and I get time:
 
@@ -23,17 +26,17 @@ to manually tie the arg name to the dependency, however will see how it evolves 
 
 ## Usage
 
-To do something basic you will need to new up an instance of BindJS, you really should just have one instance,
+To do something basic you will need to new up an instance of `Dependi`, you really should just have one instance,
 although you can make multiple instances. Each one is isolated and has its own binding details.
 
 To bind something you would do:
 ```
 // Browser
-var container = new BindJs.Container();
+var container = new Dependi.Container();
 container.bind(YourObjectConstructor);
 
 // NodeJs
-var container = require("bindjs").Container;
+var container = require("dependi").Container;
 ```
 
 Then to get it you would do:
@@ -50,7 +53,7 @@ Sometimes you will have a dependency on another object that has been bound, so i
 you will need to indicate to the container that you require a dependency injected into your constructor.
 
 ```
-var container = new BindJs.Container();
+var container = new Dependi.Container();
 container.bind(DependencyConstructor);
 container.bind(DependantConstructor).withDependency("argumentName", DependencyConstructor);
 ```
@@ -88,7 +91,7 @@ function Bar()
 	};
 }
 
-var container = new BindJS.Container();
+var container = new Dependi.Container();
 container.bind(Bar);
 container.bind(Foo)
 	  .withDependency("bar", Bar)	// withDependency(argName, constructorForDependency);
@@ -99,4 +102,4 @@ foo.doSomething(); // Alerts DANGER WILL ROBINSON
 ```
 
 Here is an example of what it does, check source code.
-[View Example](https://rawgithub.com/grofit/bindjs/master/example.html)
+[View Example](https://rawgithub.com/grofit/dependi/master/example.html)

@@ -1,13 +1,23 @@
 {
-  "name": "bindjs",
-  "version": "0.5.0",
-  "description": "A dependency injection framework for constructor injection",
-  "main": "dist/bind.js",
+  "name": "dependy",
+  "version": "0.5.1",
+  "description": "A dependency injection framework for ioc and not service location in in javascript",
+  "main": "dist/dependi.js",
+  "files": [
+        "dist/**",
+        "index.d.ts",
+        "readme.md"
+    ],
+  "keywords": [
+    "ioc",
+    "dependency",
+    "injection"
+  ],
   "dependencies": {},
   "devDependencies": {
     "gulp": "3.9.0",
     "gulp-typescript": "2.10.0",
-    "gulp-es6-exporter": "grofit/gulp-es6-exporter",
+    "gulp-es6-exporter": "latest",
     "webpack-stream": "^3.1.0",
     "rimraf": "latest",
     "mkdirp": "latest",
@@ -25,11 +35,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/grofit/bindjs.git"
+    "url": "https://github.com/grofit/dependi.git"
   },
   "author": "@grofit",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/grofit/bindjs/issues"
+    "url": "https://github.com/grofit/dependi/issues"
   }
 }

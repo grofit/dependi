@@ -1,10 +1,10 @@
 <html>
 	<head>
-		<title>BindJS Example</title>
+		<title>DepenDI Example</title>
 	</head>
 	<body>
 		<h2>Alert should be popping up now</h2>
-		<script src="dist/bind.js"></script>
+		<script src="dist/dependi.js"></script>
 		<script type="text/javascript">
 		
 			function Foo(bar, message) // requires bar instance and a message
@@ -31,7 +31,7 @@
                 this.count = 0;
             }
 
-			var binder = new BindJs.Container();
+			var binder = new Dependi.Container();
 			binder.bind(Bar);
 			binder.bind(Foo)			
 				  .withArgument("message", "DANGER WILL ROBINSON") // withArgument(argName, argValue);

@@ -1,7 +1,7 @@
 var assert = chai.assert;
 var expect = chai.expect;
 
-var Container = BindJs.Container;
+var Container = Dependi.Container;
 
 describe('Unbinding', function () {
 
@@ -13,7 +13,7 @@ describe('Unbinding', function () {
         container.bind(SomeSimpleClass);
         container.unbind(SomeSimpleClass);
 
-        expect(function(){ container.get(SomeSimpleClass) }).to.throw(BindJs.NoBindingError);
+        expect(function(){ container.get(SomeSimpleClass) }).to.throw(Dependi.NoBindingError);
     });
 
 });

@@ -7,7 +7,7 @@ module.exports = function(config) {
         frameworks: ['mocha', 'chai-as-promised', 'chai'],
 
         files: [
-            'dist/bind.js',
+            'dist/dependi.js',
             'tests/specs/**/*.js'
         ],
 

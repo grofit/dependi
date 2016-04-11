@@ -2,7 +2,7 @@ var assert = chai.assert;
 var expect = chai.expect;
 var should = chai.should();
 
-var Container = BindJs.Container;
+var Container = Dependi.Container;
 
 describe('Binding', function () {
 
@@ -74,7 +74,7 @@ describe('Binding', function () {
         var container = new Container();
         container.bind(SomeSimpleClass).withArgument("value1", 12);
 
-        expect(function(){ container.bind(SomeSimpleClass); }).to.throw(BindJs.DuplicateBindingError)
+        expect(function(){ container.bind(SomeSimpleClass); }).to.throw(Dependi.DuplicateBindingError)
     });
 
     it('should return singleton instance when bound as singleton', function () {
