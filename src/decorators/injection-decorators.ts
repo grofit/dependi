@@ -8,7 +8,7 @@ export var __container = new Container();
 var constructorProcessor = new ConstructorProcessor();
 
 export function withContainer() : Function {
-    return function(target: Object, key: string, descriptor:  TypedPropertyDescriptor<any>): any {
+    return function(target: any, key: string, descriptor:  TypedPropertyDescriptor<any>): any {
         var originalExecutor = descriptor.value;
         descriptor.value = function() { return originalExecutor(__container); };
         return descriptor;
@@ -16,7 +16,7 @@ export function withContainer() : Function {
 };
 
 export function inject(...types: Array<Function>) : Function {
-    return function(target: Object, key: string, descriptor:  TypedPropertyDescriptor<any>): any {
+    return function(target: any, key: string, descriptor:  TypedPropertyDescriptor<any>): any {
         var allInstances = [];
         for (var type of types) {
             let instance = __container.get(type);

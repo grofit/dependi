@@ -6,7 +6,7 @@ export class ConstructorProcessor implements IConstructorProcessor
     private functionMatcher = /^function\s*[^\(]*\(\s*([^\)]*)\)/m;
     private constructorMatcher = /function (\w*)/;
 
-    public processConstructor = (targetConstructor: any): ConstructorDescriptor =>
+    public processConstructor = (targetConstructor: Function): ConstructorDescriptor =>
     {
         var text = targetConstructor.toString();
         var matches = text.match(this.functionMatcher);

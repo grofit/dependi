@@ -17,7 +17,7 @@ export class Binder
                 private instanceGenerator: IInstanceGenerator)
     {}
 
-    private getOrderedArgs = (descriptor: ConstructorDescriptor) => {
+    private getOrderedArgs = (descriptor: ConstructorDescriptor): Array<any> => {
         var bindingSetup = this.bindings[descriptor.name];
         var orderedArgs = [];
 
@@ -35,7 +35,7 @@ export class Binder
         return orderedArgs;
     };
 
-    private resolveDescriptorForNamedOrConstructor = (nameOrConstructor): ConstructorDescriptor => {
+    private resolveDescriptorForNamedOrConstructor = (nameOrConstructor: (string | Function)): ConstructorDescriptor => {
         if(typeof nameOrConstructor == "string")
         {
             for(var namedParam in this.bindings){
@@ -49,7 +49,7 @@ export class Binder
         return this.constructorProcessor.processConstructor(nameOrConstructor);
     };
 
-    public bind = (targetConstructor) => {
+    public bind = (targetConstructor: Function): BindingContext => {
         var descriptor = this.constructorProcessor.processConstructor(targetConstructor);
 
         if(this.bindings[descriptor.name])
@@ -61,14 +61,14 @@ export class Binder
         return new BindingContext(bindingSetup);
     };
 
-    public unbind = (targetConstructor) => {
+    public unbind = (targetConstructor: Function): void => {
         var descriptor = this.constructorProcessor.processConstructor(targetConstructor);
 
         if(this.bindings[descriptor.name])
         { delete this.bindings[descriptor.name]; }
     };
 
-    public get = (constructorOrName) => {
+    public get = (constructorOrName: (string | Function)): IInstanceGenerator => {
 
         var descriptor = this.resolveDescriptorForNamedOrConstructor(constructorOrName);
 

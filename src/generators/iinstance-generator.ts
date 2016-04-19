@@ -1,4 +1,4 @@
 export interface IInstanceGenerator
 {
-    generate(targetConstructor: any, args: any);
+    generate(targetConstructor: Function, args: any): any;
 }
