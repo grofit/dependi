@@ -68,7 +68,7 @@ export class Binder
         { delete this.bindings[descriptor.name]; }
     };
 
-    public get = (constructorOrName: (string | Function)): IInstanceGenerator => {
+    public get = <T>(constructorOrName: (string | Function)): T  => {
 
         var descriptor = this.resolveDescriptorForNamedOrConstructor(constructorOrName);
 

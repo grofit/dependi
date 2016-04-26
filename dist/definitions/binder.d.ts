@@ -13,5 +13,5 @@ export declare class Binder {
     private resolveDescriptorForNamedOrConstructor;
     bind: (targetConstructor: Function) => BindingContext;
     unbind: (targetConstructor: Function) => void;
-    get: (constructorOrName: string | Function) => IInstanceGenerator;
+    get: <T>(constructorOrName: string | Function) => T;
 }
