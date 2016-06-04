@@ -1,5 +1,7 @@
 # Dependi
 
+[![Build Status](https://travis-ci.org/grofit/dependi.svg?branch=master)](https://travis-ci.org/grofit/dependi)
+
 A simple dependency container which allows for construction injection, meaning you can have your cake and eat it.
 
 ## Warning
